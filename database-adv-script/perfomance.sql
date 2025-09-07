@@ -1,4 +1,5 @@
 -- Initial query (unoptimized)
+-- Retrieves all bookings with user, property, and payment details for confirmed payments
 EXPLAIN ANALYZE
 SELECT 
     booking.id AS booking_id,
@@ -14,11 +15,13 @@ INNER JOIN users
 INNER JOIN property 
     ON booking.property_id = property.id
 INNER JOIN payment 
-    ON booking.id = payment.booking_id;
+    ON booking.id = payment.booking_id
+WHERE payment.status = 'confirmed'
+AND property.location = 'Lagos';
 
 -- Refactored query (optimized)
 -- Removed unnecessary columns, used table aliases, and ensured indexes exist on:
--- booking.user_id, booking.property_id, payment.booking_id
+-- booking.user_id, booking.property_id, payment.booking_id, property.location
 EXPLAIN ANALYZE
 SELECT 
     b.id AS booking_id,
@@ -31,4 +34,6 @@ JOIN users u
 JOIN property p 
     ON b.property_id = p.id
 JOIN payment pay 
-    ON b.id = pay.booking_id;
+    ON b.id = pay.booking_id
+WHERE pay.status = 'confirmed'
+AND p.location = 'Lagos';
