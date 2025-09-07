@@ -11,13 +11,14 @@ INNER JOIN users
 
 -- 2. LEFT JOIN – Properties with Reviews
 SELECT 
-    properties.property_id,
-    properties.title AS property_title,
-    reviews.review_id,
-    reviews.comment
-FROM properties
-LEFT JOIN reviews
-    ON properties.property_id = reviews.property_id;
+    p.property_id,
+    p.title AS property_title,
+    r.review_id,
+    r.comment
+FROM properties p
+LEFT JOIN reviews r
+    ON p.property_id = r.property_id
+ORDER BY p.title ASC, r.review_id ASC;
 
 
 -- 3. FULL OUTER JOIN – Users and Bookings
